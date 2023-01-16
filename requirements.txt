@@ -1,0 +1,8 @@
+Django==4.1.5
+djangorestframework==3.14.0
+django-extensions==3.2.1
+ipython==8.8.0
+django-cors-headers==3.13.0
+drf-yasg==1.21.4
+drf-yasg[validation]
+pre-commit==2.21.0
