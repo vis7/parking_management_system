@@ -43,6 +43,7 @@ python manage.py test
 
 To reformat explictly code
 ```
+pre-commit run --all-files
 ```
 
 # API Documentation
@@ -53,4 +54,3 @@ Run project and go to `http://127.0.0.1:8000/swagger/`
 # Assumption
 - For the purpose of this project default user is sufficient but still we created our own User class by extending AbstractUser class of Django, Becase if we want to add diffrent types of users or modify funtionlity of user we can do it easily, without affecting existing database in production.
 - User account is directly get activate without need to verify email
--
