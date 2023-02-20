@@ -1,0 +1,16 @@
+[
+{
+    "model": "booking.premise",
+    "pk": 1,
+    "fields": {
+        "name": "Premise-1"
+    }
+},
+{
+    "model": "booking.premise",
+    "pk": 2,
+    "fields": {
+        "name": "Premise-2"
+    }
+}
+]

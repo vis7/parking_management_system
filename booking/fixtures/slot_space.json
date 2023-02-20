@@ -1,0 +1,32 @@
+[
+{
+    "model": "booking.slotspace",
+    "pk": 1,
+    "fields": {
+        "name": "1",
+        "vehicle_type": 3,
+        "premise": 1,
+        "rate_per_hour": "50"
+    }
+},
+{
+    "model": "booking.slotspace",
+    "pk": 2,
+    "fields": {
+        "name": "2",
+        "vehicle_type": 2,
+        "premise": 1,
+        "rate_per_hour": "30"
+    }
+},
+{
+    "model": "booking.slotspace",
+    "pk": 3,
+    "fields": {
+        "name": "Premise-1",
+        "vehicle_type": 1,
+        "premise": 1,
+        "rate_per_hour": "20"
+    }
+}
+]

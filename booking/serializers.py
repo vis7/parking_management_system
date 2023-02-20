@@ -1,11 +1,12 @@
 import datetime
 import pytz
 from django.conf.global_settings import TIME_ZONE
+from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 
 
-from .models import Booking
+from booking.models import Booking
 
 tz = pytz.timezone(TIME_ZONE)
 
@@ -13,7 +14,7 @@ tz = pytz.timezone(TIME_ZONE)
 class BookingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Booking
-        fields = ["book_date", "slot_space"]
+        fields = ["book_date", "slot_space", "start_time", "end_time"]
 
     def validate_book_date(self, book_date):
         """
@@ -22,13 +23,13 @@ class BookingSerializer(serializers.ModelSerializer):
         """
         user = self.context["request"].user
 
-        # User can only book single parking space on any given date
-        booking = Booking.objects.filter(user=user, book_date=book_date).first()
-
-        if booking:
-            raise ValidationError(
-                f"You booked slot space number: {booking.slot_space} for date: {booking.book_date}.\n User can only book single parking space on any given date."
-            )
+        # # User can only book single parking space on any given date
+        # booking = Booking.objects.filter(user=user, book_date=book_date).first()
+        #
+        # if booking:
+        #     raise ValidationError(
+        #         f"You booked slot space number: {booking.slot_space} for date: {booking.book_date}.\n User can only book single parking space on any given date."
+        #     )
 
         # Booking should be made 24 hrs in advance
         slot_time = datetime.time(0)
@@ -49,12 +50,25 @@ class BookingSerializer(serializers.ModelSerializer):
         Space and slot is not occupied by others
         """
         book_date = data["book_date"]
-        slot_space = data["slot_space"]
+        start_time = data["start_time"]
+        end_time = data["end_time"]
 
-        # Slot space is not occupied by others on given date
-        booking = Booking.objects.filter(book_date=book_date, slot_space=slot_space)
-        if booking:
+        # Allow booking because it is not clashing
+        # booking_clash = Booking.objects.filter(
+        #     # Q(book_date=book_date) &
+        #     ((Q(start_time__lte=start_time) & Q(start_time__lte=end_time)) | (Q(end_time__gte=start_time) & Q(end_time__gte=end_time)))
+        # )
+
+        booking_clash = Booking.objects.filter(
+            Q(book_date=book_date)
+            & (
+                Q(start_time__range=(start_time, end_time))
+                | Q(end_time__range=(start_time, end_time))
+            )
+        )
+
+        if booking_clash.exists():
             raise ValidationError(
-                "This slot is already taken, kindly book another slot."
+                "Time slot is fully or partially taken by others.\nKindly book another slot."
             )
         return data

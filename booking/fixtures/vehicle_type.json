@@ -1,0 +1,23 @@
+[
+{
+    "model": "booking.vehicletype",
+    "pk": 1,
+    "fields": {
+        "name": "2 Wheeler"
+    }
+},
+{
+    "model": "booking.vehicletype",
+    "pk": 2,
+    "fields": {
+        "name": "4 Wheeler"
+    }
+},
+{
+    "model": "booking.vehicletype",
+    "pk": 3,
+    "fields": {
+        "name": "4 Wheeler Long"
+    }
+}
+]
