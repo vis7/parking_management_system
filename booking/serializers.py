@@ -6,7 +6,7 @@ from rest_framework import serializers
 from rest_framework.serializers import ValidationError
 
 
-from booking.models import Booking
+from booking.models import Booking, SlotSpace
 
 tz = pytz.timezone(TIME_ZONE)
 
@@ -72,3 +72,8 @@ class BookingSerializer(serializers.ModelSerializer):
                 "Time slot is fully or partially taken by others.\nKindly book another slot."
             )
         return data
+
+class SlotSpaceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SlotSpace
+        fields = "__all__"
